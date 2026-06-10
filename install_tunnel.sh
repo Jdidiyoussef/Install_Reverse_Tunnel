@@ -48,23 +48,23 @@ elif [ "$MODE" == "Pi" ]; then
 
 	echo "=== Création du service systemd ==="
 
-	sudo tee /etc/systemd/system/reverse-tunnel_test.service > /dev/null <<EOF
-	[Unit]
-	Description=Reverse SSH Tunnel to Contabo
-	After=network-online.target
-	Wants=network-online.target
+sudo tee /etc/systemd/system/reverse-tunnel_test.service > /dev/null <<EOF
+[Unit]
+Description=Reverse SSH Tunnel to Contabo
+After=network-online.target
+Wants=network-online.target
 
-	[Service]
-	User=${USER_PI}
-	Environment="AUTOSSH_GATETIME=0"
-	ExecStartPre=/bin/sleep 10
-	ExecStart=/usr/bin/autossh -N -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" -R ${REMOTE_PORT}:localhost:22 root@${SERVER_IP}
-	Restart=always
-	RestartSec=5
+[Service]
+User=${USER_PI}
+Environment="AUTOSSH_GATETIME=0"
+ExecStartPre=/bin/sleep 10
+ExecStart=/usr/bin/autossh -N -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" -R ${REMOTE_PORT}:localhost:22 root@${SERVER_IP}
+Restart=always
+RestartSec=5
 
-	[Install]
-	WantedBy=multi-user.target
-	EOF
+[Install]
+WantedBy=multi-user.target
+EOF
 
 	echo "=== Génération de clé SSH ==="
 
